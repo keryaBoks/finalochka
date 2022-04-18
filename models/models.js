@@ -51,6 +51,12 @@ const TypeBrand = sequelize.define('type_brand', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 })
 
+const ResetPassword = sequelize.define('reset_password', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    email: {type: DataTypes.STRING, unique: true,},
+    token: {type: DataTypes.STRING, allowNull: false, unique: true,},
+})
+
 
 User.hasOne(Basket)
 Basket.belongsTo(User)
@@ -76,6 +82,10 @@ BasketDevice.belongsTo(Device)
 Device.hasMany(DeviceInfo, {as: 'info'});
 DeviceInfo.belongsTo(Device)
 
+
+User.hasOne(ResetPassword)
+ResetPassword.belongsTo(User)
+
 Type.belongsToMany(Brand, {through: TypeBrand })
 Brand.belongsToMany(Type, {through: TypeBrand })
 
@@ -88,6 +98,7 @@ module.exports = {
     Brand,
     Rating,
     TypeBrand,
-    DeviceInfo
+    DeviceInfo,
+    ResetPassword
 }
 
